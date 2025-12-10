@@ -1,0 +1,350 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: Scratch Pad
+meta:
+  id: wrk_scratchpad
+  created: 1741697361940
+  modified: 1741697361940
+  description: ""
+collection:
+  - name: todo
+    meta:
+      id: fld_14ec9795a5a246e6a07711c00579561d
+      created: 1765366542570
+      modified: 1765366542570
+      sortKey: -1765366542570
+      description: ""
+    children:
+      - name: usuario
+        meta:
+          id: fld_24c4f361fde4417caa7408361ed50c81
+          created: 1765366573479
+          modified: 1765369212125
+          sortKey: -1765366573479
+          description: ""
+        children:
+          - url: http://localhost:3000/api/usuario
+            name: CREATE
+            meta:
+              id: req_4c7b8a72f3094ee1afd75f04b0eed31c
+              created: 1765310194336
+              modified: 1765371171582
+              isPrivate: false
+              description: ""
+              sortKey: -1765366580309
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"nome":"Arnaldo",
+                	"email":"arnaldo@email.com",
+                	"senha":"senha123"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3000/api/usuario
+            name: READ
+            meta:
+              id: req_09eb3450b0fe495abe5056084241d73d
+              created: 1765366555025
+              modified: 1765366580230
+              isPrivate: false
+              description: ""
+              sortKey: -1765366580209
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3000/api/usuario/3
+            name: UPDATE
+            meta:
+              id: req_e4e7e43ac8964abdac718cb9aca44296
+              created: 1765371444540
+              modified: 1765371456661
+              isPrivate: false
+              description: ""
+              sortKey: -1765366580259
+            method: PATCH
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"nome":"Arnaldo Sacomani"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3000/api/usuario/3
+            name: DELETE
+            meta:
+              id: req_a05466cd71eb4d47b75b783b44253287
+              created: 1765371531085
+              modified: 1765371597872
+              isPrivate: false
+              description: ""
+              sortKey: -1765366580234
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: tarefa
+        meta:
+          id: fld_be1337b281bd44bb92d61de80bbfc708
+          created: 1765366603159
+          modified: 1765366603159
+          sortKey: -1765366603159
+          description: ""
+        children:
+          - url: http://localhost:3000/api/tarefa
+            name: READ
+            meta:
+              id: req_e41a186de74640efb5d4f5bb0d7dc83e
+              created: 1765366611450
+              modified: 1765366630272
+              isPrivate: false
+              description: ""
+              sortKey: -1765366611450
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3000/api/tarefa/1
+            name: READ-by-UsuarioId
+            meta:
+              id: req_47ef6393bbdc498292de71240eb35b2c
+              created: 1765366660985
+              modified: 1765367021928
+              isPrivate: false
+              description: ""
+              sortKey: -1765366595879.5
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3000/api/tarefa
+            name: CREATE
+            meta:
+              id: req_5995fd84937e454b86bc8b184c8a7457
+              created: 1765367696286
+              modified: 1765367734825
+              isPrivate: false
+              description: ""
+              sortKey: -1765366603664.75
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                	{
+                		"usuarioId": 1,
+                		"descricao": "Criar um relatório qualquer",
+                		"setor": "Administração",
+                		"prioridade": "baixa"
+                	}
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3000/api/tarefa/12
+            name: UPDATE
+            meta:
+              id: req_50a5eefea8154600a1e275bcf5884f8f
+              created: 1765367762545
+              modified: 1765368682113
+              isPrivate: false
+              description: ""
+              sortKey: -1765366599772.125
+            method: PATCH
+            body:
+              mimeType: application/json
+              text: |-
+                	{
+                		"usuarioId": 1,
+                		"descricao": "Criar um relatório qualquer bonito",
+                		"setor": "Administração",
+                		"prioridade": "baixa"
+                	}
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:3000/api/tarefa/18
+            name: DELETE
+            meta:
+              id: req_1798e6c682184976bf188bf37217fae2
+              created: 1765367823369
+              modified: 1765368936937
+              isPrivate: false
+              description: ""
+              sortKey: -1765366597825.8125
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: login
+        meta:
+          id: fld_46f232e224e349918b594ea63b6a1e27
+          created: 1765369229198
+          modified: 1765369229198
+          sortKey: -1765366558024.5
+          description: ""
+        children:
+          - url: http://localhost:3000/api/login
+            name: LOGIN
+            meta:
+              id: req_52cc3ff5c5c54e19a9186399653350e2
+              created: 1765369229201
+              modified: 1765369242495
+              isPrivate: false
+              description: ""
+              sortKey: -1765366580309
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"email":"ana@email.com",
+                	"senha":"senha123"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1741785010824
+    modified: 1756212128643
+  cookies:
+    - id: 1e39de64-f8f8-47b9-9383-35a4e23aaafc
+      key: accessToken
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJlbWlseXMiLCJlbWFpbCI6ImVtaWx5LmpvaG5zb25AeC5kdW1teWpzb24uY29tIiwiZmlyc3ROYW1lIjoiRW1pbHkiLCJsYXN0TmFtZSI6IkpvaG5zb24iLCJnZW5kZXIiOiJmZW1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL2VtaWx5cy8xMjgiLCJpYXQiOjE3NTYyMTIwMTEsImV4cCI6MTc1NjIxMjMxMX0.eNOV2m6A5mtmVXByu-Ce8Dflm_ybVvjyxqjOGrh8cEU
+      domain: dummyjson.com
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+    - id: cc4ef0f6-82af-456d-a49d-371afa0a83d9
+      key: refreshToken
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJlbWlseXMiLCJlbWFpbCI6ImVtaWx5LmpvaG5zb25AeC5kdW1teWpzb24uY29tIiwiZmlyc3ROYW1lIjoiRW1pbHkiLCJsYXN0TmFtZSI6IkpvaG5zb24iLCJnZW5kZXIiOiJmZW1hbGUiLCJpbWFnZSI6Imh0dHBzOi8vZHVtbXlqc29uLmNvbS9pY29uL2VtaWx5cy8xMjgiLCJpYXQiOjE3NTYyMTIwMTEsImV4cCI6MTc1ODgwNDAxMX0.hJtIWoWl_tSuWksONL_jR6gO30P5AhEXQzuzof-mkRI
+      domain: dummyjson.com
+      path: /
+      secure: true
+      httpOnly: true
+      hostOnly: true
+environments:
+  name: Base Environment
+  meta:
+    id: env_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1741785010734
+    modified: 1741785010734
+    isPrivate: false
