@@ -47,12 +47,6 @@ export default function Tarefas() {
         <div className="w-full h-screen flex flex-col items-center justify-between">
             <header className="w-full flex flex-row items-center justify-around p-2">
                 <h1 className="font-bold">Minhas tarefas</h1>
-                <button
-                    className="bg-black text-white p-3 rounded-lg hover:bg-gray-700 transition cursor-pointer"
-                    onClick={sair}
-                >
-                    Sair
-                </button>
             </header>
             <main className="flex flex-col items-center justify-center gap-2">
                 {tarefas.map((tarefa: { id: string; usuarioId: string; descricao: string, setor: string, prioridade: string, status: string }) => (
@@ -65,7 +59,14 @@ export default function Tarefas() {
                     </div>
                 ))}
             </main>
-            <footer></footer>
+            <footer className="w-full flex flex-row items-center justify-end p-2">
+                <button
+                    className="bg-black text-white p-3 rounded-lg hover:bg-gray-700 transition cursor-pointer"
+                    onClick={sair}
+                >
+                    Sair
+                </button>
+            </footer>
         </div>
     );
 }
