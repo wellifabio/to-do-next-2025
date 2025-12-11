@@ -22,6 +22,9 @@ export default function Tarefas() {
     const router = useRouter();
     const [usuario, setUsuario] = useState<Usuario | null>(null);
     const [tarefas, setTarefas] = useState([]);
+    const [afazer, setAfazer] = useState([]);
+    const [fazendo, setFazendo] = useState([]);
+    const [pronto, setPronto] = useState([]);
     const [tarefa, setTarefa] = useState<Tarefa | null>(null);
 
     useEffect(() => {
@@ -31,6 +34,10 @@ export default function Tarefas() {
     useEffect(() => {
         fetchTarefas();
     }, [usuario]);
+
+    useEffect(() => {
+        distribuirTarefas();
+    }, [tarefas]);
 
     async function validarUser() {
         const usuario = localStorage.getItem("usuario");
@@ -48,15 +55,68 @@ export default function Tarefas() {
         setTarefas(await res.json());
     };
 
+    async function distribuirTarefas() {
+        const afazerList = tarefas.filter((tarefa: { status: string; }) => tarefa.status === 'afazer');
+        const fazendoList = tarefas.filter((tarefa: { status: string; }) => tarefa.status === 'fazendo');
+        const prontoList = tarefas.filter((tarefa: { status: string; }) => tarefa.status === 'pronto');
+        setAfazer(afazerList);
+        setFazendo(fazendoList);
+        setPronto(prontoList);
+    }
+
+    function listarPorStatus(status: string) {
+        const lista = {
+            'afazer': afazer,
+            'fazendo': fazendo,
+            'pronto': pronto
+        }[status] || [];
+        return (
+            lista.map((tarefa: { id: string; usuarioId: string; descricao: string, setor: string, prioridade: string, status: string }) => (
+                <div key={tarefa.id}
+                    className={`flex flex-col items-center justify-center gap-1 p-4 border border-gray-300 rounded-xl shadow-lg w-80 ${tarefa.prioridade === 'alta' ? 'bg-red-500' :
+                        tarefa.prioridade === 'media' ? 'bg-yellow-500' : ''
+                        }`}>
+                    <h2>{tarefa.descricao}</h2>
+                    <p>Setor: {tarefa.setor}</p>
+                    <p>Prioridade: {tarefa.prioridade}</p>
+                    <p>Status:
+                        <select className="ml-2 p-1 border border-gray-300 rounded-lg"
+                            value={tarefa.status}
+                            onChange={(e) => atualizarStatus(e, tarefa.id)()}>
+                            <option value="afazer">A fazer</option>
+                            <option value="fazendo">Fazendo</option>
+                            <option value="pronto">Pronto</option>
+                        </select>
+                    </p>
+                    <div className="gap-2 flex flex-row">
+                        <button
+                            onClick={editar(`${tarefa.id}`)}
+                            className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700 transition cursor-pointer"
+                        >
+                            Editar
+                        </button>
+                        <button
+                            onClick={excluir(`${tarefa.id}`)}
+                            className="bg-black text-white p-2 rounded-lg hover:bg-gray-700 transition cursor-pointer"
+                        >
+                            Excluir
+                        </button>
+                    </div>
+                </div>
+            ))
+        );
+    }
+
     function sair() {
         localStorage.removeItem("usuario");
         validarUser();
     }
 
-    const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    const enviarDados = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         if (!usuario || !tarefa) return;
         if (tarefa.id) {
+            // Editar tarefa existente UPDATE
             const options = {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
@@ -70,9 +130,9 @@ export default function Tarefas() {
                 alert('Erro ao atualizar tarefa');
             }
         } else {
+            // Criar nova tarefa CREATE
             tarefa.usuarioId = usuario.id;
             tarefa.status = "afazer";
-            console.log(tarefa);
             const options = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -87,6 +147,7 @@ export default function Tarefas() {
         }
     };
 
+    // Excluir tarefa DELETE
     const excluir = (id: string) => async () => {
         if (confirm('Deseja realmente excluir a tarefa?') === false) return;
         const options = {
@@ -104,6 +165,22 @@ export default function Tarefas() {
         setTarefa(tarefas.find((tarefa: { id: string; }) => tarefa.id == id) || null);
     };
 
+    // Atualizar status da tarefa
+    const atualizarStatus = (e: React.ChangeEvent<HTMLSelectElement>, id: string) => async () => {
+        const status = e.target.value;
+        const options = {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: status })
+        };
+        const response = await fetch(`http://localhost:3000/api/tarefa/${id}`, options);
+        if (response.ok) {
+            fetchTarefas();
+        } else {
+            alert('Erro ao atualizar status');
+        }
+    };
+
     return (
         <div className="w-full h-screen flex flex-col items-center justify-between">
             <header className="w-full flex flex-row items-center justify-around p-2">
@@ -115,55 +192,29 @@ export default function Tarefas() {
                     Sair
                 </button>
             </header>
-            <main className="flex flex-col items-center justify-center gap-2 max-h-[70vh] overflow-y-auto">
-                {tarefas.map((tarefa: { id: string; usuarioId: string; descricao: string, setor: string, prioridade: string, status: string }) => (
-                    <div key={tarefa.id}
-                        className="flex flex-col items-center justify-center gap-1 p-4 border border-gray-300 rounded-xl shadow-lg w-80">
-                        <h2>{tarefa.descricao}</h2>
-                        <p>Setor: {tarefa.setor}</p>
-                        <p>Prioridade: {tarefa.prioridade}</p>
-                        <p>Status:
-                            <select className="ml-2 p-1 border border-gray-300 rounded-lg"
-                                value={tarefa.status}
-                                onChange={async (e) => {
-                                    const novaStatus = e.target.value;
-                                    const options = {
-                                        method: 'PATCH',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify({ status: novaStatus })
-                                    };
-                                    const response = await fetch(`http://localhost:3000/api/tarefa/${tarefa.id}`, options);
-                                    if (response.ok) {
-                                        fetchTarefas();
-                                    } else {
-                                        alert('Erro ao atualizar status');
-                                    }
-                                }}
-                            >
-                                <option value="afazer">A fazer</option>
-                                <option value="fazendo">Fazendo</option>
-                                <option value="feito">Feito</option>
-                            </select>
-                        </p>
-                        <button
-                            onClick={editar(`${tarefa.id}`)}
-                            className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700 transition cursor-pointer"
-                        >
-                            Editar
-                        </button>
-                        <button
-                            onClick={excluir(`${tarefa.id}`)}
-                            className="bg-black text-white p-2 rounded-lg hover:bg-gray-700 transition cursor-pointer"
-                        >
-                            Excluir
-                        </button>
+            <main>
+                <div className="flex flex-col items-center justify-start gap-2 max-h-[70vh] overflow-y-auto">
+                    <h2 className="font-bold text-lg">A fazer</h2>
+                    <div className="w-full flex flex-wrap items-center justify-center gap-4">
+                        <hr className="w-full" />
+                        {listarPorStatus('afazer')}
                     </div>
-                ))}
+                    <h2 className="font-bold text-lg mt-4">Fazendo</h2>
+                    <div className="w-full flex flex-wrap items-center justify-center gap-4">
+                        <hr className="w-full" />
+                        {listarPorStatus('fazendo')}
+                    </div>
+                    <h2 className="font-bold text-lg mt-4">Pronto</h2>
+                    <div className="w-full flex flex-wrap items-center justify-center gap-4">
+                        <hr className="w-full" />
+                        {listarPorStatus('pronto')}
+                    </div>
+                </div>
             </main>
             <footer className="w-full flex flex-row items-center justify-center p-2">
                 <form
                     className="flex flex-col items-center justify-center gap-2 p-3 border border-gray-300 rounded-xl shadow-lg"
-                    onSubmit={handleSubmit}>
+                    onSubmit={enviarDados}>
                     <h2 className="font-bold">Gestão de tarefas</h2>
                     <input
                         className="p-2 border border-gray-300 rounded-lg"
