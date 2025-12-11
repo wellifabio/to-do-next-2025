@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 import bcrypt from 'bcrypt';
 
-const encripta = async (senha: String) => {
+const encripta = async (senha) => {
     if (!senha) return null;
     try {
         const salt = await bcrypt.genSalt(10);
