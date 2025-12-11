@@ -17,13 +17,13 @@ Desenvolvido com Next.js e Prisma.
 DATABASE_URL="mysql://root@localhost:3306/tarefas"
 ```
 - 2 Abra o painel de controle do **XAMPP** e de start em MySQL
-- 3 Em um terminal `bash` ou `cmd` instale as dependências e execute o projeto
+- 3 Em um terminal `bash` ou `cmd` instale as dependências, migrue o banco de dados e execute o projeto
 ```bash
 npm install
+npx prisma migrate dev --name init 
 npm run dev
 ```
-
-Abra [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 4 Abra [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Screenshot
 ![Screenshot](./public/screenshot.png)

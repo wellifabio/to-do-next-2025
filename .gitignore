@@ -40,4 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+## Ignore lock files
 package-lock.json
+
+## Prisma migrations
+/prisma/migrations/
